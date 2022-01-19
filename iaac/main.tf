@@ -60,24 +60,6 @@ resource "google_pubsub_topic" "saf_topic" {
   name = var.saf_topic
 }
 
-# Enable SAF required APIs
-module "project-services" {
-  source                      = "terraform-google-modules/project-factory/google//modules/project_services"
-  project_id                  = var.gcp_project
-  enable_apis                 = true
-  disable_services_on_destroy = true
-
-  activate_apis = [
-    "cloudbuild.googleapis.com",
-    "dlp.googleapis.com",
-    "dataflow.googleapis.com",
-    "language.googleapis.com",
-    "speech.googleapis.com",
-    "cloudfunctions.googleapis.com"
-  ]
-
-}
-
 # Creating and building a container image
 module "gcloud" {
   source  = "terraform-google-modules/gcloud/google"
@@ -155,7 +137,7 @@ resource "google_storage_bucket_object" "archive" {
 resource "google_cloudfunctions_function" "function" {
   name        = var.function_name
   description = var.function_description
-  runtime     = "nodejs14"
+  runtime     = "nodejs16"
   region      = var.function_region
 
   available_memory_mb   = 128

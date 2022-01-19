@@ -19,6 +19,11 @@ variable "gcp_project" {
   description = "GCP project name"
 }
 
+variable "service_account_email" {
+  type        = string
+  description = "Service account email"
+}
+
 variable "dataflow_staging_bucket" {
   type        = string
   description = "Dataflow staging bucket name"
