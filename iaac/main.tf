@@ -30,21 +30,43 @@ resource "random_id" "bucket_id" {
 #Create a storage bucket for Dataflow Staging Files
 resource "google_storage_bucket" "dataflow_staging_bucket" {
   name = "${var.dataflow_staging_bucket}-${random_id.bucket_id.hex}"
+  location = var.bucket_location
+}
+# Grant privs to bucket for service account
+resource "google_storage_bucket_iam_member" "dataflow_member" {
+  bucket = google_storage_bucket.dataflow_staging_bucket.name
+  role = "roles/storage.admin"
+  member  = "serviceAccount:${var.service_account_email}"
 }
 
 # Create a storage bucket for Uploaded Audio Files
 resource "google_storage_bucket" "audio_uploads_bucket" {
   name = "${var.audio_uploads_bucket}-${random_id.bucket_id.hex}"
+  location = var.bucket_location
+}
+# Grant privs to bucket for service account
+resource "google_storage_bucket_iam_member" "audio_member" {
+  bucket = google_storage_bucket.audio_uploads_bucket.name
+  role = "roles/storage.admin"
+  member  = "serviceAccount:${var.service_account_email}"
 }
 
 # Create a storage bucket for Dataflow Flex template
 resource "google_storage_bucket" "flextemplate_bucket" {
   name = "${var.flextemplate_bucket}-${random_id.bucket_id.hex}"
+  location = var.bucket_location
+}
+# Grant privs to bucket for service account
+resource "google_storage_bucket_iam_member" "flextemplate_member" {
+  bucket = google_storage_bucket.flextemplate_bucket.name
+  role = "roles/storage.admin"
+  member  = "serviceAccount:${var.service_account_email}"
 }
 
 # Create a storage bucket for Cloud Function Source files
 resource "google_storage_bucket" "function_bucket" {
   name = "${var.function_bucket}-${random_id.bucket_id.hex}"
+  location = var.bucket_location
 }
 
 # Create a BigQuery Dataset
@@ -113,10 +135,10 @@ resource "google_dataflow_flex_template_job" "big_data_job" {
     temp_location   = "gs://${google_storage_bucket.dataflow_staging_bucket.name}/tmp"
     output_bigquery = "${var.dataset_id}.${var.table_id}"
     region          = var.dataflow_region
+    service_account_email = var.service_account_email
   }
   depends_on = [
     google_storage_bucket_object.template,
-    module.project-services,
     module.gcloud
   ]
 }
@@ -140,10 +162,11 @@ resource "google_cloudfunctions_function" "function" {
   runtime     = "nodejs16"
   region      = var.function_region
 
-  available_memory_mb   = 128
+  available_memory_mb   = 256
   source_archive_bucket = google_storage_bucket.function_bucket.name
   source_archive_object = google_storage_bucket_object.archive.name
   entry_point           = "safLongRunJobFunc"
+  service_account_email = var.service_account_email
 
   event_trigger {
     event_type = "google.storage.object.finalize"
@@ -152,7 +175,6 @@ resource "google_cloudfunctions_function" "function" {
 
   depends_on = [
     data.archive_file.function_files,
-    module.project-services
   ]
 
 }

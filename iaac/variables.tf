@@ -24,6 +24,12 @@ variable "service_account_email" {
   description = "Service account email"
 }
 
+variable "bucket_location" {
+  type        = string
+  default = "US"
+  description = "Location"
+}
+
 variable "dataflow_staging_bucket" {
   type        = string
   description = "Dataflow staging bucket name"

@@ -1,6 +1,6 @@
 variable "project_name" {
     type = string
-    default = "speech_analysis"
+    default = "speech-analysis"
 }
 
 variable "organization_id" {
