@@ -65,3 +65,9 @@ resource "google_project_iam_member" "monitoring-binding" {
   role    = "roles/monitoring.metricWriter"
   member  = "serviceAccount:${module.project-factory.service_account_email}"
 }
+
+resource "google_project_iam_member" "storage-binding" {
+  project = module.project-factory.project_id
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${module.project-factory.service_account_email}"
+}
