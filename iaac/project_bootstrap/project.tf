@@ -28,20 +28,6 @@ resource "google_compute_network" "default" {
   mtu                     = 1460
 }
 
-resource "google_compute_firewall" "dataflow_firewall_rule" {
-  name    = "dataflow-firewall"
-  network = "default"
-  project = module.project-factory.project_id
-
-  allow {
-    protocol = "tcp"
-    ports    = ["1-65535"]
-  }
-
-  source_tags = ["dataflow"]
-  target_tags = ["dataflow"]
-}
-
 resource "google_project_iam_member" "bigquery-binding" {
   project = module.project-factory.project_id
   role    = "roles/bigquery.dataEditor"

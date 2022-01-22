@@ -69,6 +69,21 @@ resource "google_storage_bucket" "function_bucket" {
   location = var.bucket_location
 }
 
+# Firewall rules required by DataFlow 
+resource "google_compute_firewall" "dataflow_firewall_rule" {
+  name    = "dataflow-firewall"
+  network = "default"
+  project = module.project-factory.project_id
+
+  allow {
+    protocol = "tcp"
+    ports    = ["1-65535"]
+  }
+
+  source_tags = ["dataflow"]
+  target_tags = ["dataflow"]
+}
+
 # Create a BigQuery Dataset
 resource "google_bigquery_dataset" "dataset" {
   dataset_id    = var.dataset_id
