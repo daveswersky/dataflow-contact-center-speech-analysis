@@ -73,7 +73,7 @@ resource "google_storage_bucket" "function_bucket" {
 resource "google_compute_firewall" "dataflow_firewall_rule" {
   name    = "dataflow-firewall"
   network = "default"
-  project = module.project-factory.project_id
+  project = var.gcp_project
 
   allow {
     protocol = "tcp"
