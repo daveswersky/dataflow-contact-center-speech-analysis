@@ -16,11 +16,11 @@
 
 # Configure the Google Cloud provider
 provider "google" {
-  project     = var.gcp_project
+  project     = var.project_id
 }
 
 provider "google-beta" {
-  project     = var.gcp_project
+  project     = var.project_id
 }
 
 resource "random_id" "bucket_id" {
@@ -73,7 +73,7 @@ resource "google_storage_bucket" "function_bucket" {
 resource "google_compute_firewall" "dataflow_firewall_rule" {
   name    = "dataflow-firewall"
   network = "default"
-  project = var.gcp_project
+  project = var.project_id
 
   allow {
     protocol = "tcp"
@@ -103,7 +103,7 @@ module "gcloud" {
   version = "~> 2.0"
   platform = "linux"
   create_cmd_entrypoint = "gcloud"
-  create_cmd_body       = "builds submit --tag gcr.io/${var.gcp_project}/${var.image_name}:latest ../../dataflow-contact-center-speech-analysis/saf-longrun-job-dataflow"
+  create_cmd_body       = "builds submit --tag gcr.io/${var.project_id}/${var.image_name}:latest ../../dataflow-contact-center-speech-analysis/saf-longrun-job-dataflow"
 }
 
 # Create Flex Template
@@ -111,7 +111,7 @@ locals {
   jsonstring = jsonencode({
 
     "defaultEnvironment" : {},
-    "image" : "gcr.io/${var.gcp_project}/${var.image_name}:latest",
+    "image" : "gcr.io/${var.project_id}/${var.image_name}:latest",
     "sdkInfo" : {
       "language" : "PYTHON"
     }
@@ -146,7 +146,7 @@ resource "google_dataflow_flex_template_job" "big_data_job" {
   name                    = "${var.dataflow_name}-${random_id.bucket_id.hex}"
   container_spec_gcs_path = "gs://${google_storage_bucket.flextemplate_bucket.name}/template.json"
   parameters = {
-    input_topic     = "projects/${var.gcp_project}/topics/${var.saf_topic}"
+    input_topic     = "projects/${var.project_id}/topics/${var.saf_topic}"
     temp_location   = "gs://${google_storage_bucket.dataflow_staging_bucket.name}/tmp"
     output_bigquery = "${var.dataset_id}.${var.table_id}"
     region          = var.dataflow_region

@@ -15,7 +15,7 @@
  */
 
 # GCP Settings
-gcp_project             = PROJECT_ID
+project_id             = PROJECT_ID
 dataflow_staging_bucket = "saf-dataflow"
 audio_uploads_bucket    = "saf-audio"
 flextemplate_bucket     = "saf-flextemplate"
