@@ -1,1 +1,1 @@
-{"defaultEnvironment":{},"image":"gcr.io/saf-9-0ad8/saf:latest","sdkInfo":{"language":"PYTHON"}}
+{"defaultEnvironment":{},"image":"gcr.io/saf-10-a489/saf:latest","sdkInfo":{"language":"PYTHON"}}

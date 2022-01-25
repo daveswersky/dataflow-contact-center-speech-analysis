@@ -250,7 +250,8 @@ def redact_text(data, project):
 
     if data['dlp'] == 'true' or data['dlp'] == 'True':
         dlp = google.cloud.dlp_v2.DlpServiceClient()
-        parent = dlp.project_path(project)
+        # parent = dlp.project_path(project)
+        parent = f"projects/{project}"
         response = dlp.list_info_types('en-US')
 
         # This will use all info types available, you can narrow it to a list or template
