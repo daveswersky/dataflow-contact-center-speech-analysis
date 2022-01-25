@@ -12,7 +12,6 @@ module "compute-vm-required-shielded"{
   source            = "terraform-google-modules/org-policy/google"
   version           = "~> 3.0.2"
   policy_for        = "project"
-#  organization_id   = var.organization_id
   project_id        = var.project_id
   constraint        = "constraints/compute.requireShieldedVm"
   policy_type       = "boolean"
@@ -23,7 +22,6 @@ module "functions-allowed-ingress"{
   source            = "terraform-google-modules/org-policy/google"
   version           = "~> 3.0.2"
   policy_for        = "project"
-#  organization_id   = var.organization_id
   project_id        = var.project_id
   constraint        = "constraints/cloudfunctions.allowedIngressSettings"
   policy_type       = "list"
@@ -34,7 +32,6 @@ module "uniform-bucket-access"{
   source            = "terraform-google-modules/org-policy/google"
   version           = "~> 3.0.2"
   policy_for        = "project"
-  #organization_id   = var.organization_id
   project_id        = var.project_id
   constraint        = "constraints/storage.uniformBucketLevelAccess"
   policy_type       = "boolean"

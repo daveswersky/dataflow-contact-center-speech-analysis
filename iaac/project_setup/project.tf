@@ -1,26 +1,3 @@
-# module "project-factory" {
-#   source  = "terraform-google-modules/project-factory/google"
-#   version = "~> 10.1"
-
-#   name                 = var.project_name
-#   random_project_id    = true
-#   org_id               = "529148739755"
-#   billing_account      = "010DEE-1A67CA-054E3A"
-#   auto_create_network  = true
- 
-#   # APIs Enabled
-#   activate_apis = [
-#       "dataflow.googleapis.com",
-#       "speech.googleapis.com",
-#       "cloudbuild.googleapis.com",
-#       "language.googleapis.com",
-#       "dlp.googleapis.com",
-#       "bigquery.googleapis.com",
-#       "cloudfunctions.googleapis.com",
-#       "monitoring.googleapis.com"
-#   ]
-# }
-
 # Configure the Google Cloud provider
 provider "google" {
   project     = var.project_id
@@ -37,3 +14,16 @@ resource "google_compute_network" "default" {
   mtu                     = 1460
 }
 
+# Enable APIs
+resource "google_project_service" "project" {
+  for_each = var.service_ids
+  project = var.project_id
+  service = each.value
+
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+
+  disable_dependent_services = true
+}
