@@ -57,3 +57,9 @@ resource "google_project_iam_member" "storage-binding" {
   role    = "roles/storage.admin"
   member  = "serviceAccount:${module.project-factory.service_account_email}"
 }
+
+resource "google_project_iam_member" "dlp-binding" {
+  project = module.project-factory.project_id
+  role    = "roles/dlp.user"
+  member  = "serviceAccount:${module.project-factory.service_account_email}"
+}
