@@ -250,52 +250,59 @@ def redact_text(data, project):
 
     if data['dlp'] == 'true' or data['dlp'] == 'True':
         dlp = google.cloud.dlp_v2.DlpServiceClient()
-        # parent = dlp.project_path(project)
+        
         parent = f"projects/{project}"
-        response = dlp.list_info_types('en-US')
-
-        # This will use all info types available, you can narrow it to a list or template
-        for info_type in response.info_types:
-            info_types.append({'name': info_type.name})
-
-        inspect_config = { "info_types": info_types}
+  
+        inspect_config = {"info_types": [{"name": info_type} for info_type in info_types]}
         
         item = {"value": data['transcript']}
         response = dlp.deidentify_content(
-            parent,
-            inspect_config=inspect_config,
-            deidentify_config=deidentify_config,
-            item=item,
-        )
+        request={
+            "parent": parent,
+            "deidentify_config": deidentify_config,
+            "inspect_config": inspect_config,
+            "item": item,
+        }
+    )
         data['transcript'] = response.item.value
 
         for words_element in data['words']:
             item = {"value": words_element['word']}
             response = dlp.deidentify_content(
-                parent,
-                inspect_config=inspect_config,
-                deidentify_config=deidentify_config,
-                item=item,
+                # parent,
+                # inspect_config=inspect_config,
+                # deidentify_config=deidentify_config,
+                # item=item,
+                request={
+                    "parent": parent,
+                    "deidentify_config": deidentify_config,
+                    "inspect_config": inspect_config,
+                    "item": item,
+                }
             )
             words_element['word'] = response.item.value
         
         for entities_element in data['entities']:
             item = {"value": entities_element['name']}
-            response = dlp.deidentify_content(
-                parent,
-                inspect_config=inspect_config,
-                deidentify_config=deidentify_config,
-                item=item,
+            response = dlp.deidentify_content(              
+                request={
+                    "parent": parent,
+                    "deidentify_config": deidentify_config,
+                    "inspect_config": inspect_config,
+                    "item": item,
+                }
             )
             entities_element['name'] = response.item.value
 
         for sentences_element in data['sentences']:
             item = {"value": sentences_element['sentence']}
-            response = dlp.deidentify_content(
-                parent,
-                inspect_config=inspect_config,
-                deidentify_config=deidentify_config,
-                item=item,
+            response = dlp.deidentify_content(                
+                request={
+                    "parent": parent,
+                    "deidentify_config": deidentify_config,
+                    "inspect_config": inspect_config,
+                    "item": item,
+                }
             )
             sentences_element['sentence'] = response.item.value
 
