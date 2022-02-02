@@ -4,8 +4,8 @@ module "project-factory" {
 
   name                 = var.project_name
   random_project_id    = true
-  org_id               = "529148739755"
-  billing_account      = "010DEE-1A67CA-054E3A"
+  org_id               = var.organization_id
+  billing_account      = var.billing_account_id
   auto_create_network  = true
  
   # APIs Enabled
