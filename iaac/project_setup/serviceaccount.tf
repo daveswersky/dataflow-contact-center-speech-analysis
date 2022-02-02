@@ -25,7 +25,7 @@ resource "google_project_iam_member" "dataflow-binding" {
 resource "google_project_iam_member" "monitoring-binding" {
   project = var.project_id
   role    = "roles/monitoring.metricWriter"
-  member  = google_service_account.service_account.email
+  member  = "serviceAccount:${google_service_account.service_account.email}"
 }
 
 resource "google_project_iam_member" "storage-binding" {
