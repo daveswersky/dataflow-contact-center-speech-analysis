@@ -16,7 +16,7 @@ resource "google_compute_network" "default" {
 
 # Enable APIs
 resource "google_project_service" "project" {
-  for_each = var.service_ids
+  for_each = toset(var.service_ids)
   project = var.project_id
   service = each.value
 
