@@ -35,7 +35,7 @@ resource "google_project_iam_member" "storage-binding" {
 }
 
 resource "google_project_iam_member" "dlp-binding" {
-  project = module.project-factory.project_id
+  project = var.project_id
   role    = "roles/dlp.user"
   member  = google_service_account.service_account.email
 }
