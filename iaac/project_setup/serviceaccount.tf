@@ -1,6 +1,6 @@
 
 resource "google_service_account" "service_account" {
-  account_id   = "serviceAccount:${var.project_id}-project-service-account"
+  account_id   = "saf-project-service-account"
   display_name = "Project Service Account"
 }
 
