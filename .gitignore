@@ -6,3 +6,4 @@ function_zipfile
 *.tfstate
 *.backup
 *.zip
+.DS_Store
