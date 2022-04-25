@@ -1,6 +1,8 @@
 node_modules
+function_zipfile
 .terraform
 *.hcl
 *.tfplan
 *.tfstate
 *.backup
+*.zip
