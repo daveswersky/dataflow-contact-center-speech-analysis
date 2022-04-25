@@ -126,13 +126,13 @@ exports.safLongRunJobFunc = (event, context, callback) => {
 				'filename': `gs://${file.bucket}/${file.name}`,
 				'callid': file.metadata.callid === undefined ? 'undefined' : file.metadata.callid,
 				'date': Date(Date.now()),
-				'year': file.metadata.year === undefined ? 'undefined' : file.metadata.year,
-				'month': file.metadata.month === undefined ? 'undefined' : file.metadata.month,
-				'day': file.metadata.day === undefined ? 'undefined' : file.metadata.day,
+				'year': file.metadata.year === undefined ? 0 : file.metadata.year,
+				'month': file.metadata.month === undefined ? 0 : file.metadata.month,
+				'day': file.metadata.day === undefined ? 0 : file.metadata.day,
 				'starttime': file.metadata.starttime === undefined ? 'undefined' : file.metadata.starttime,
 				'duration': duration, //get value from fluent-ffmpeg
 				'stereo': file.metadata.stereo === undefined ? 'undefined' : file.metadata.stereo,
-				'dlp': file.metadata.dlp === undefined ? 'undefined' : file.metadata.dlp
+				'dlp': file.metadata.dlp === undefined ? false : file.metadata.dlp
 			};
 
 			client
