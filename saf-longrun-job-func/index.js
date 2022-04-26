@@ -153,7 +153,7 @@ exports.safLongRunJobFunc = (event, context, callback) => {
 						.publisher()
 						.publish(dataBuffer)
 						.then(messageId => {
-							console.log(`Message ${messageId} published.`);
+							console.log(`Message ${messageId} published for file ${file.name}, CALLID:${file.metadata.callid}.`);
 							callback(null, 'Success!');
 						})
 						.catch(err => {

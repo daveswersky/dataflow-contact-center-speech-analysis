@@ -42,7 +42,7 @@ def stt_output_response(data):
         sleep_duration = round(int(float(pub_sub_data['duration'])) / 2)
     else:
         sleep_duration = 5
-    logging.info('Sleeping for: %s', sleep_duration)
+    logging.info('stt_output_response: Sleeping for: %s', sleep_duration)
     time.sleep(sleep_duration)
 
     retry_count = 10
@@ -50,6 +50,8 @@ def stt_output_response(data):
         retry_count -= 1
         time.sleep(120)
         response = get_operation.execute()
+    
+    logging.info('stt_output_response: STT result received for callid: %s', pub_sub_data['callid'])
 
     # return response to include STT data and agent search word
     response_list = [response,
@@ -189,6 +191,7 @@ def get_nlp_output(parse_stt_output):
     credentials = GoogleCredentials.get_application_default()
     nlp_service = discovery.build('language', 'v1beta2', credentials=credentials)
 
+    logging.info('get_nlp_output: BEGIN for callid: %s', parse_stt_output['callid'])
     # [START NLP analyzeSentiment]
     get_operation_sentiment = nlp_service.documents().analyzeSentiment(
         body={
@@ -227,6 +230,7 @@ def get_nlp_output(parse_stt_output):
             'sentiment': element['sentiment']['score']
         })
     # [END NLP analyzeEntitySentiment]
+    logging.info('get_nlp_output: END for callid: %s', parse_stt_output['callid'])
     return get_nlp_output_response
 
 # function to redact sensitive data if dlp key value set to true
@@ -248,6 +252,7 @@ def redact_text(data, project):
         }
     }
 
+    logging.info('redact_text: BEGIN for callid: %s', data['callid'])
     if data['dlp'] == 'true' or data['dlp'] == 'True':
         dlp = google.cloud.dlp_v2.DlpServiceClient()
         
@@ -305,7 +310,7 @@ def redact_text(data, project):
                 }
             )
             sentences_element['sentence'] = response.item.value
-
+    logging.info('redact_text: END for callid: %s', data['callid'])
     return data
 
 def run(argv=None, save_main_session=True):
