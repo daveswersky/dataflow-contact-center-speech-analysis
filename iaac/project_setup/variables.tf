@@ -12,5 +12,6 @@ variable "service_ids" {
       "dlp.googleapis.com",
       "bigquery.googleapis.com",
       "cloudfunctions.googleapis.com",
-      "monitoring.googleapis.com"]
+      "monitoring.googleapis.com",
+      "cloudtrace.googleapis.com"]
 }

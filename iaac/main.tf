@@ -27,6 +27,12 @@ resource "random_id" "bucket_id" {
   byte_length = 8
 }
 
+terraform {
+  backend "gcs" {
+    bucket = "saf-remotestate"
+  }
+}
+
 #Create a storage bucket for Dataflow Staging Files
 resource "google_storage_bucket" "dataflow_staging_bucket" {
   name = "${var.dataflow_staging_bucket}-${random_id.bucket_id.hex}"
