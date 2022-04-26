@@ -15,3 +15,9 @@ variable "service_ids" {
       "monitoring.googleapis.com",
       "cloudtrace.googleapis.com"]
 }
+
+variable "bucket_location" {
+  type        = string
+  default = "US"
+  description = "Location"
+}
