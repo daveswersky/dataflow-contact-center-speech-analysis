@@ -14,15 +14,6 @@
  * limitations under the License.
  */
 
-# Configure the Google Cloud provider
-provider "google" {
-  project     = var.project_id
-}
-
-provider "google-beta" {
-  project     = var.project_id
-}
-
 resource "google_storage_bucket" "remote_state_bucket" {
   name = "saf-remotestate"
   location = var.bucket_location
