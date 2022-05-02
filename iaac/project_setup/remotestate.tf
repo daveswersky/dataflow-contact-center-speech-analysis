@@ -23,3 +23,7 @@ resource "google_storage_bucket" "remote_state_bucket" {
   #"${var.dataflow_staging_bucket}-${random_id.bucket_id.hex}"
   location = var.bucket_location
 }
+
+output "remote_state_bucket" {
+  value = "${var.project_id}-remotestate"
+}

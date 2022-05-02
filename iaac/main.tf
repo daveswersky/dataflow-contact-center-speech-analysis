@@ -28,9 +28,7 @@ resource "random_id" "bucket_id" {
 }
 
 terraform {
-  backend "gcs" {
-    bucket = "saf-10-remotestate"
-  }
+  backend "gcs" {}
 }
 
 #Create a storage bucket for Dataflow Staging Files
