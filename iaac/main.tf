@@ -29,7 +29,7 @@ resource "random_id" "bucket_id" {
 
 terraform {
   backend "gcs" {
-    bucket = "${var.project_id}-remotestate"
+    bucket = "saf-10-remotestate"
   }
 }
 
