@@ -19,7 +19,7 @@ resource "random_id" "bucket_id" {
 }
 
 resource "google_storage_bucket" "remote_state_bucket" {
-  name = "${var.project_id}-remotestate"
+  name = "saf-10-remotestate"
   #"${var.dataflow_staging_bucket}-${random_id.bucket_id.hex}"
   location = var.bucket_location
 }
