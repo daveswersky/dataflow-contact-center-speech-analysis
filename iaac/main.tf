@@ -165,7 +165,7 @@ resource "google_dataflow_flex_template_job" "big_data_job" {
 # Deploy the Google Cloud Function
 data "archive_file" "function_files" {
   type        = "zip"
-  source_dir  = "../../dataflow-contact-center-speech-analysis/saf-longrun-job-func"
+  source_dir  = "../saf-longrun-job-func"
   output_path = "./function_zipfile/index.zip"
 }
 
