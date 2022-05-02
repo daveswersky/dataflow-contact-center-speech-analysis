@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
+resource "random_id" "bucket_id" {
+  byte_length = 8
+}
+
 resource "google_storage_bucket" "remote_state_bucket" {
-  name = "saf-remotestate"
+  name = "${var.project_id}-remotestate"
+  #"${var.dataflow_staging_bucket}-${random_id.bucket_id.hex}"
   location = var.bucket_location
 }
