@@ -107,7 +107,7 @@ module "gcloud" {
   version = "~> 2.0"
   platform = "linux"
   create_cmd_entrypoint = "gcloud"
-  create_cmd_body       = "builds submit --tag gcr.io/${var.project_id}/${var.image_name}:latest ../../dataflow-contact-center-speech-analysis/saf-longrun-job-dataflow"
+  create_cmd_body       = "builds submit --tag gcr.io/${var.project_id}/${var.image_name}:latest ../saf-longrun-job-dataflow"
 }
 
 # Create Flex Template
